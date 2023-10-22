@@ -1,0 +1,3 @@
+# This file is meant to be read by direnv - see README for details
+export PYTHON_VERSION=$PYTHON_VERSION
+export PYENV_VERSION=$PYENV_VERSION
