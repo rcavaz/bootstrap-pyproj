@@ -11,3 +11,9 @@ git add submodule git@github.com:rcavaz/bootstrap-pyproj.git bootstrap
 ```bash
 bash bootstrap/bootstrap.bash
 ```
+
+## Update submodule
+
+```bash
+git submodule update --remote
+```
