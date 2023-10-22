@@ -15,5 +15,5 @@ bash bootstrap/bootstrap.bash
 ## Update submodule
 
 ```bash
-git submodule update --remote
+git submodule update --remote bootstrap
 ```
