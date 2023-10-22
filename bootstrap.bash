@@ -22,6 +22,7 @@ configure_envrc() {
 install() {
     requires_command 'envsubst'
     requires_command 'pyenv'
+
     install_dependencies
     configure_envrc
 
@@ -43,7 +44,11 @@ uninstall() {
 # -*- Main -*-
 
 main() {
-    local opt=${1:-install}
+    local path=${1}
+    local opt=${2:-install}
+
+    pushd $(dirname $path)
+
     case "${opt}" in
         install)
                 install
@@ -52,6 +57,8 @@ main() {
                 uninstall
             ;;
     esac
+
+    popd
 }
 
-main $1
+main $0 $1
