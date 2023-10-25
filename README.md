@@ -3,7 +3,7 @@
 ## Add script as a Git Submodule
 
 ```bash
-git add submodule git@github.com:rcavaz/bootstrap-pyproj.git bootstrap
+git submodule add git@github.com:rcavaz/bootstrap-pyproj.git bootstrap
 ```
 
 ## Setup virtual environment
