@@ -10,7 +10,10 @@ requires_command() {
 }
 
 install_dependencies() {
+    local path=$1
+    pushd $path
     xargs sudo apt-get -y install >/dev/null < <(cat *.dependencies.txt)
+    popd
 }
 
 # endregion
@@ -35,7 +38,7 @@ _select_python_version() {
 }
 
 _select_pyenv_version() {
-    read default < <(basename $OLDPWD)
+    read default < <(basename $PWD)
     read -p "PYENV_VERSION ($default): " user_selection
     [[ -z $user_selection ]] \
         && printf -v PYENV_VERSION "%s" $default \
@@ -51,7 +54,7 @@ configure_envrc() {
     direnv allow
 }
 
-install_virtualenv() {
+configure_virtualenv() {
     pyenv install --skip-existing $PYTHON_VERSION
     pyenv virtualenv $PYTHON_VERSION $PYENV_VERSION
     pyenv local $PYENV_VERSION
@@ -63,13 +66,12 @@ install_virtualenv() {
 
 # region - Commands
 
-install() {
+configure_environment() {
     requires_command 'envsubst'
     requires_command 'pyenv'
 
-    install_dependencies
     configure_envrc
-    install_virtualenv
+    configure_virtualenv
 }
 
 uninstall() {
@@ -93,18 +95,15 @@ main() {
     local path=${1}
     local opt=${2:-install}
 
-    pushd $(dirname $path)
-
     case "${opt}" in
         install)
-                install
+                install_dependencies $(dirname $path)
+                configure_environment
             ;;
         uninstall)
                 uninstall
             ;;
     esac
-
-    popd
 }
 
 main $0 $1
