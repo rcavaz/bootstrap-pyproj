@@ -50,7 +50,8 @@ configure_envrc() {
     _select_python_version
     _select_pyenv_version
 
-    envsubst > .envrc < envrc.example
+    local path=$1
+    envsubst > .envrc < $path/envrc.example
     direnv allow
 }
 
@@ -66,12 +67,9 @@ configure_virtualenv() {
 
 # region - Commands
 
-configure_environment() {
+check_requirements() {
     requires_command 'envsubst'
     requires_command 'pyenv'
-
-    configure_envrc
-    configure_virtualenv
 }
 
 uninstall() {
@@ -97,8 +95,10 @@ main() {
 
     case "${opt}" in
         install)
+                check_requirements
                 install_dependencies $(dirname $path)
-                configure_environment
+                configure_envrc $(dirname $path)
+                configure_virtualenv
             ;;
         uninstall)
                 uninstall
